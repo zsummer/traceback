@@ -122,6 +122,12 @@ namespace  zsummer
         void *stack[200];
         size_t size = backtrace(stack, 200);
         char **stackSymbol = backtrace_symbols(stack, size);
+        ss << "backtrace: ";
+        for (size_t i = 1; i < size; i++ )
+        {
+            ss << stack[i] << "  ";
+        }
+        ss << "\r\n";
         for (size_t i = 1; i < size && stackSymbol != NULL; i++)
         {
             ss << "bt[" << i - 1 << "] " << stackSymbol[i] << "\r\n";
@@ -136,6 +142,7 @@ namespace  zsummer
 
 /*
 gdb info line * 0x40000000
+addr2line -f -C -e ./test  0x400fce  0x401027  0x7f2bfb401b45  0x400ee9
 */
 
 
