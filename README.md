@@ -10,13 +10,27 @@ C++运行时堆栈信息获取, 支持win,linux,mac
   
 # 部分说明  
 在gcc下traceback在动态符号库中获取符号名, 如果是静态链接 可能获取不到符号名, 但依然可以获取到堆栈的地址信息.  
-通过gdb或者addr2line可以从外部正确获取实际的符号信息. 该函数的返回已经自动排版好地址的格式可以直接复制通过shell命令获取符号信息.  
+通过gdb或者addr2line 或者nm 可以从外部正确获取实际的符号信息. 该函数的返回已经自动排版好地址的格式可以直接复制通过shell命令获取符号信息.  
 命令和使用方法如下,具体man手册:  
 ```shell  
 gdb info line * 0x40000000
 addr2line -f -C -e ./test  0x400fce  0x401027  0x7f2bfb401b45  0x400ee9
-```
-#About The Author  
-**Auther**: YaweiZhang  
+```  
+# 备忘  
+gcc调试hook  
+```  
+gcc -finstrument-functions 
+void __attribute__((no_instrument_function))  
+__cyg_profile_func_enter(void *this_func, void *call_site);
+void __attribute__((no_instrument_function))  
+__cyg_profile_func_exit(void *this_func, void *call_site);
+```  
+vs调试hook
+```   
+/Gh (Enable _penter Hook Function)
+/GH (Enable _pexit Hook Function)
+```  
+# About The Author    
+**Author**: YaweiZhang  
 **Mail**: yawei.zhang@foxmail.com  
 **GitHub**: https://github.com/zsummer/traceback  
